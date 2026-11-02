@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jalu Veda | Projects</title>
+<meta name="description" content="Jalu Veda: ML researcher and electrical engineer. Vision models, edge deployment, embedded systems and industrial control projects.">
+<meta property="og:title" content="Jalu Veda | Projects">
+<meta property="og:description" content="Vision models that run on real hardware: edge sign language recognition, self-supervised medical imaging, TSMC surrogate modeling, embedded and control systems.">
+<meta property="og:image" content="assets/img/npk-device.jpg">
+<meta name="color-scheme" content="light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F7FA; --paper:#FFFFFF; --ink:#13203A; --navy:#173B6C; --navy-2:#24508C;
+  --navy-tint:#E8EEF7; --gold:#C9971C; --gold-ink:#7F5C0C; --gold-tint:#FBF3DF;
+  --muted:#55607A; --rule:#D3D9E2;
+  --wide:125%; --gutter:clamp(16px,4vw,48px); --max:1180px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Archivo",system-ui,sans-serif;font-size:16px;line-height:1.55;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:var(--navy);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--navy-2);text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px;border-radius:2px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+h1,h2,h3{font-stretch:var(--wide);line-height:1.12;margin:0;letter-spacing:-0.01em}
+h2{font-size:clamp(1.6rem,3vw,2.1rem);font-weight:720}
+h3{font-size:1.3rem;font-weight:700}
+p{margin:0 0 1em}
+.muted{color:var(--muted)}
+
+/* nav */
+.top{position:sticky;top:0;z-index:20;background:rgba(245,247,250,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--rule)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:56px;gap:16px}
+.brand{font-stretch:var(--wide);font-weight:760;text-decoration:none;color:var(--ink);font-size:1.05rem}
+.top nav{display:flex;gap:clamp(12px,2.5vw,28px);font-size:.95rem}
+.top nav a{text-decoration:none;color:var(--ink)}
+.top nav a:hover{color:var(--navy);text-decoration:underline}
+@media (max-width:560px){.top nav .hide-s{display:none}}
+
+/* hero */
+.hero{padding-top:clamp(48px,8vw,96px);padding-bottom:40px}
+.hero h1{font-size:clamp(2.7rem,7vw,4.6rem);font-weight:800;color:var(--navy)}
+.hero .tag{font-size:clamp(1.25rem,2.6vw,1.75rem);font-stretch:112%;font-weight:520;margin:.5em 0 .9em;max-width:28ch;line-height:1.25}
+.hero .intro{max-width:64ch;font-size:1.06rem;color:#2A3650}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid var(--navy);border-radius:6px;text-decoration:none;font-weight:600;font-size:.95rem;color:var(--navy);background:var(--paper)}
+.btn:hover{background:var(--navy-tint);text-decoration:none}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:var(--navy-2);color:#fff}
+.btn svg{width:16px;height:16px}
+
+/* signal chain */
+.chain-block{margin-top:56px}
+.chain-note{font-size:.95rem;color:var(--muted);margin-bottom:14px}
+.chain{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(6,1fr);gap:28px;position:relative}
+.chain li{position:relative}
+.chain li:not(:last-child)::after{content:"";position:absolute;top:50%;right:-28px;width:28px;height:2px;background:var(--navy);}
+.chain li:not(:last-child)::before{content:"";position:absolute;top:calc(50% - 4px);right:-29px;border-left:7px solid var(--navy);border-top:5px solid transparent;border-bottom:5px solid transparent;z-index:1}
+.stage{width:100%;height:100%;min-height:96px;text-align:left;font:inherit;color:var(--ink);background:var(--paper);border:1.5px solid var(--navy);border-radius:4px;padding:12px 12px 12px;cursor:pointer;position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:6px}
+.stage::before,.stage::after{content:"";position:absolute;top:calc(50% - 5px);width:10px;height:10px;border-radius:50%;background:var(--gold);border:2px solid var(--paper);box-shadow:0 0 0 1.5px var(--gold-ink)}
+.stage::before{left:-6px}.stage::after{right:-6px}
+.chain li:first-child .stage::before,.chain li:last-child .stage::after{display:none}
+.stage b{font-stretch:108%;font-weight:680;font-size:.98rem;line-height:1.2}
+.stage span{font-size:.85rem;color:var(--muted)}
+.stage:hover{background:var(--navy-tint)}
+.stage[aria-pressed="true"]{background:var(--navy);color:#fff}
+.stage[aria-pressed="true"] span{color:#C9D6EA}
+@media (max-width:980px){
+  .chain{grid-template-columns:repeat(3,1fr)}
+  .chain li:nth-child(3)::after,.chain li:nth-child(3)::before{display:none}
+  .chain li:nth-child(3) .stage::after,.chain li:nth-child(4) .stage::before{display:none}
+}
+@media (max-width:560px){
+  .chain{grid-template-columns:1fr 1fr;gap:14px 28px}
+  .chain li::after,.chain li::before{display:none!important}
+  .stage::before,.stage::after{display:none!important}
+  .stage{min-height:76px}
+}
+
+/* sections */
+section{padding:56px 0}
+.sec-head{display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap;margin-bottom:28px}
+.filter-status{font-size:.95rem;color:var(--muted)}
+.filter-status button{font:inherit;color:var(--navy);background:none;border:0;padding:0;text-decoration:underline;cursor:pointer;margin-left:6px}
+.filter-status[hidden]{display:none}
+
+/* featured */
+.feature{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);padding:40px 0;border-top:1px solid var(--rule)}
+.feature:first-of-type{border-top:0;padding-top:8px}
+.feature.flip .visual{order:2}
+@media (max-width:860px){.feature{grid-template-columns:1fr}.feature.flip .visual{order:0}}
+.ctx{font-size:.92rem;color:var(--muted);margin:.45em 0 1em}
+.lead{font-size:1.06rem}
+.did{margin:0 0 1.2em;padding-left:1.1em}
+.did li{margin-bottom:.45em}
+.did li::marker{color:var(--gold)}
+.results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 1.2em}
+.result{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.result dt{font-stretch:var(--wide);font-weight:760;font-size:1.35rem;color:var(--navy);line-height:1.15}
+.result dd{margin:4px 0 0;font-size:.88rem;color:var(--muted);line-height:1.4}
+@media (max-width:480px){.results{grid-template-columns:1fr}}
+.tags{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+.tags li{font-size:.8rem;padding:3px 9px;border-radius:999px;background:var(--navy-tint);color:var(--navy);font-weight:550}
+.proj-links{margin-top:14px;font-size:.95rem;display:flex;gap:18px;flex-wrap:wrap}
+
+.visual figure{margin:0}
+.visual figcaption{font-size:.85rem;color:var(--muted);margin-top:8px}
+.frame{background:var(--paper);border:1px solid var(--rule);border-radius:4px;overflow:hidden}
+.zoom{all:unset;cursor:zoom-in;display:block;width:100%}
+.zoom:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.thumbs img{aspect-ratio:4/3;object-fit:cover;width:100%;border:1px solid var(--rule);border-radius:3px;background:#fff}
+
+/* diagrams */
+.diagram{background:var(--paper);border:1px solid var(--rule);border-radius:4px;padding:20px}
+.dg-title{font-size:.85rem;color:var(--muted);margin-bottom:12px}
+.flow{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.node{border:1.5px solid var(--navy);border-radius:3px;padding:7px 10px;font-size:.84rem;font-weight:600;background:#fff;line-height:1.25}
+.node.hot{border-color:var(--gold);background:var(--gold-tint);box-shadow:inset 0 0 0 1px var(--gold)}
+.node small{display:block;font-weight:450;color:var(--muted);font-size:.75rem}
+.arrow{color:var(--navy);font-size:.9rem;line-height:1}
+.scope{margin-top:14px;border:1.5px dashed var(--muted);border-radius:4px;padding:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.scope-note{flex-basis:100%;font-size:.8rem;color:var(--muted);margin-top:2px}
+.down{font-size:.8rem;color:var(--muted);margin:10px 0 0 4px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:.78rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+
+/* pressure window */
+.window{margin-top:12px}
+.scale{position:relative;height:40px;background:repeating-linear-gradient(90deg,#F0DADA 0 6px,#F7E8E8 6px 12px);border:1px solid var(--rule);border-radius:3px}
+.scale .ok{position:absolute;top:0;bottom:0;left:30%;width:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.82rem;font-weight:600}
+.ticks{position:relative;height:22px;font-size:.75rem;color:var(--muted)}
+.ticks span{position:absolute;transform:translateX(-50%);top:4px}
+.zones{display:flex;justify-content:space-between;font-size:.78rem;color:var(--muted);margin-top:2px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:8px}
+@media (max-width:980px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:4px;display:flex;flex-direction:column;overflow:hidden}
+.card .media{aspect-ratio:16/10;background:#fff;border-bottom:1px solid var(--rule);overflow:hidden}
+.card .media img{width:100%;height:100%;object-fit:cover}
+.card .media.contain img{object-fit:contain;padding:8px}
+.card .media.spec{display:flex;flex-direction:column;justify-content:center;padding:16px;background:var(--navy-tint)}
+.spec .flow{gap:6px}
+.spec .node{font-size:.76rem;padding:5px 8px}
+.card .body{padding:16px 18px 18px;display:flex;flex-direction:column;flex:1}
+.card h3{font-size:1.08rem}
+.card .ctx{margin:.35em 0 .7em;font-size:.85rem}
+.card p{font-size:.95rem}
+.card .tags{margin-top:auto;padding-top:6px}
+details{margin:2px 0 12px;font-size:.93rem}
+summary{cursor:pointer;color:var(--navy);font-weight:600;width:max-content;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";display:inline-block;width:1em;font-weight:700}
+details[open] summary::before{content:"–"}
+details ul{margin:.6em 0 0;padding-left:1.1em}
+details li{margin-bottom:.35em}
+details li::marker{color:var(--gold)}
+.status{display:inline-block;font-size:.75rem;font-weight:600;color:var(--gold-ink);background:var(--gold-tint);border:1px solid #E9D39B;border-radius:3px;padding:1px 7px;margin-left:6px;vertical-align:2px;font-stretch:100%}
+[data-hidden="true"]{display:none!important}
+
+/* background + pubs */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,72px)}
+@media (max-width:860px){.two{grid-template-columns:1fr}}
+.timeline{list-style:none;margin:20px 0 0;padding:0;border-left:2px solid var(--navy)}
+.timeline li{position:relative;padding:0 0 22px 22px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.timeline .when{font-size:.85rem;color:var(--muted)}
+.timeline b{display:block;font-stretch:108%}
+.timeline p{margin:.2em 0 0;font-size:.95rem}
+.pubs{list-style:none;margin:20px 0 0;padding:0}
+.pubs li{padding:0 0 20px;margin-bottom:20px;border-bottom:1px solid var(--rule)}
+.pubs li:last-child{border-bottom:0}
+.pubs b{display:block;font-weight:650;line-height:1.35}
+.pubs .venue{font-size:.92rem;color:var(--muted);margin:.3em 0}
+.skills{margin-top:28px}
+.skills dl{display:grid;grid-template-columns:max-content 1fr;gap:8px 18px;margin:12px 0 0;font-size:.95rem}
+.skills dt{font-weight:650}
+.skills dd{margin:0;color:#2A3650}
+@media (max-width:560px){.skills dl{grid-template-columns:1fr}.skills dd{margin-bottom:8px}}
+
+/* contact */
+.contact{background:var(--navy);color:#fff;padding:64px 0}
+.contact h2{color:#fff}
+.contact p{color:#C9D6EA;max-width:56ch;margin-top:12px}
+.contact .btn{border-color:#fff;color:#fff;background:transparent}
+.contact .btn:hover{background:rgba(255,255,255,.12)}
+.contact .btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.contact .btn.primary:hover{background:#DBA82A}
+footer{font-size:.85rem;color:#9FB0CC;background:var(--navy);padding:0 0 28px}
+
+/* lightbox */
+dialog{border:0;padding:0;background:transparent;max-width:min(1200px,94vw);max-height:92vh}
+dialog::backdrop{background:rgba(10,18,34,.86)}
+dialog img{max-height:84vh;width:auto;margin:auto;background:#fff;border-radius:3px}
+dialog p{color:#E3E9F3;text-align:center;margin:10px 0 0;font-size:.9rem}
+dialog button{position:fixed;top:14px;right:18px;font:inherit;font-weight:600;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.4);border-radius:6px;padding:6px 12px;cursor:pointer}
+dialog[open]{animation:pop .18s ease-out}
+@keyframes pop{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#">Jalu Veda</a>
+    <nav aria-label="Sections">
+      <a href="#work">Projects</a>
+      <a href="#background" class="hide-s">Background</a>
+      <a href="#publications" class="hide-s">Publications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero">
+  <h1>Jalu Veda</h1>
+  <p class="tag">I build vision models and make them run on real hardware.</p>
+  <p class="intro">M.S. candidate in Electronics and Computer Engineering at National Taiwan University of Science and Technology (GPA 4.00/4.30, full scholarship). Before machine learning, I designed PCBs, wrote firmware and commissioned control loops in a coal-fired power plant. My research sits where those meet: label-efficient vision models, and what it really costs to run them on edge devices.</p>
+  <div class="links">
+    <a class="btn primary" href="assets/Jalu-Veda-CV.pdf" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>Download CV</a>
+    <a class="btn" href="mailto:jaluveda@gmail.com">jaluveda@gmail.com</a>
+    <a class="btn" href="https://github.com/19Jal" target="_blank" rel="noopener">GitHub</a>
+    <a class="btn" href="https://linkedin.com/in/jaluveda" target="_blank" rel="noopener">LinkedIn</a>
+  </div>
+
+  <div class="chain-block">
+    <p class="chain-note" id="chain-note">My projects, laid out from circuit board to deployed model. Select a stage to see the projects that use it.</p>
+    <ul class="chain" aria-describedby="chain-note">
+      <li><button class="stage" data-filter="pcb" aria-pressed="false"><b>Circuits &amp; PCBs</b><span data-count="pcb"></span></button></li>
+      <li><button class="stage" data-filter="firmware" aria-pressed="false"><b>Firmware</b><span data-count="firmware"></span></button></li>
+      <li><button class="stage" data-filter="control" aria-pressed="false"><b>Control systems</b><span data-count="control"></span></button></li>
+      <li><button class="stage" data-filter="digital" aria-pressed="false"><b>Digital &amp; IC design</b><span data-count="digital"></span></button></li>
+      <li><button class="stage" data-filter="ml" aria-pressed="false"><b>Vision &amp; ML</b><span data-count="ml"></span></button></li>
+      <li><button class="stage" data-filter="deploy" aria-pressed="false"><b>Edge &amp; cloud deployment</b><span data-count="deploy"></span></button></li>
+    </ul>
+  </div>
+</div>
+
+<section id="work">
+<div class="wrap">
+  <div class="sec-head">
+    <h2>Projects</h2>
+    <p class="filter-status" id="filter-status" hidden aria-live="polite"><span id="filter-text"></span><button type="button" id="clear">Show all</button></p>
+  </div>
+
+  <!-- ===== FEATURED ===== -->
+  <article class="feature" data-tags="ml deploy" id="thesis">
+    <div class="visual">
+      <div class="diagram" role="img" aria-label="Sign language recognition pipeline. Video decoding, person detection, cropping, pose estimation and keypoint processing run on every frame. Only the recognition model and CTC decoding are covered by published efficiency figures, about 9.5 to 23.3 percent of system energy.">
+        <p class="dg-title">The full pipeline I measured on a Jetson Orin Nano</p>
+        <div class="flow" aria-hidden="true">
+          <span class="node">Video decode</span><span class="arrow">→</span>
+          <span class="node">Person detection</span><span class="arrow">→</span>
+          <span class="node">Crop &amp; resize</span><span class="arrow">→</span>
+          <span class="node hot">Pose estimator<small>largest per-frame network</small></span><span class="arrow">→</span>
+          <span class="node">Keypoint processing</span>
+        </div>
+        <p class="down" aria-hidden="true">↓ keypoint sequence</p>
+        <div class="scope" aria-hidden="true">
+          <span class="node">Recognition model (MSKA)</span><span class="arrow">→</span><span class="node">CTC decoding</span><span class="arrow">→</span><span class="node">Gloss sequence</span>
+          <span class="scope-note">The only part published efficiency figures cover: 9.5–23.3% of measured system energy</span>
+        </div>
+        <div class="legend" aria-hidden="true"><span><i style="background:var(--gold-tint);border:1.5px solid var(--gold)"></i>Where I cut cost</span><span><i style="border:1.5px dashed var(--muted)"></i>Prior work's accounting boundary</span></div>
+      </div>
+    </div>
+    <div>
+      <h3>Edge sign language recognition: measuring the whole pipeline</h3>
+      <p class="ctx">M.S. thesis, NTUST, 2026</p>
+      <p class="lead">Papers on efficient continuous sign language recognition report the cost of the recognition model alone. I deployed every stage on edge hardware to find out where the time and energy actually go, then cut it.</p>
+      <ul class="did">
+        <li>Converted every neural stage to TensorRT and profiled latency, memory and per-stage energy on an NVIDIA Jetson Orin Nano.</li>
+        <li>Showed a released recognition model breaks on a different pose estimator (unnormalized keypoint confidence), and fixed it with fine-tuning.</li>
+        <li>Tested a distilled student with an RGB-aware teacher against a retrained control, with 95% paired bootstrap intervals.</li>
+      </ul>
+      <dl class="results">
+        <div class="result"><dt>2.41×</dt><dd>less system energy for +1.06 WER, with no retraining</dd></div>
+        <div class="result"><dt>57.70 → 21.78</dt><dd>dev WER recovered after a pose-estimator swap</dd></div>
+      </dl>
+      <ul class="tags"><li>PyTorch</li><li>ONNX</li><li>TensorRT</li><li>Jetson Orin Nano</li><li>RTMPose / DWPose</li><li>FP16 / INT8</li></ul>
+    </div>
+  </article>
+
+  <article class="feature flip" data-tags="ml" id="dinov2">
+    <div class="visual">
+      <figure>
+        <button class="zoom frame" data-full="assets/img/dinov2-framework.jpg" data-caption="Three-stage self-supervised framework from the paper" aria-label="Enlarge framework figure">
+          <img src="assets/img/dinov2-framework.jpg" alt="Three-stage framework: DINOv2 pretrained weights, chest X-ray domain adaptation with self-distillation, then linear probing for stroke and heart failure detection" loading="lazy" width="1400" height="645">
+        </button>
+        <figcaption>The three-stage framework from the paper. Select to enlarge.</figcaption>
+      </figure>
+    </div>
+    <div>
+      <h3>Self-supervised ViTs for chest X-ray diagnosis with few labels</h3>
+      <p class="ctx">Journal of Imaging Informatics in Medicine (Springer Nature), 2026. Second author of four.</p>
+      <p class="lead">Detecting stroke and heart failure from chest X-rays when only a small labeled set exists, by adapting a general DINOv2 Vision Transformer to X-ray images before training the classifier.</p>
+      <ul class="did">
+        <li>Designed the domain-adaptation stage: froze the bottom 8 of 12 ViT blocks to keep general visual features while the top blocks learn X-ray structure.</li>
+        <li>Ran the ablations that show each pretraining stage's contribution on both tasks.</li>
+      </ul>
+      <dl class="results">
+        <div class="result"><dt>89.60%</dt><dd>stroke accuracy (±1.39), above RAD-DINO with ~4× fewer parameters</dd></div>
+        <div class="result"><dt>92.52%</dt><dd>heart failure accuracy (±1.57), first of 5 SSL baselines</dd></div>
+      </dl>
+      <ul class="tags"><li>PyTorch</li><li>DINOv2</li><li>ViT-S/14</li><li>Self-supervised learning</li><li>Linear probing</li></ul>
+      <p class="proj-links"><a href="https://doi.org/10.1007/s10278-026-02133-5" target="_blank" rel="noopener">Read the paper (open access)</a></p>
+    </div>
+  </article>
+
+  <article class="feature" data-tags="ml deploy" id="tsmc">
+    <div class="visual">
+      <div class="diagram" role="img" aria-label="Surrogate modeling workflow: chamber recipe into a physics model producing 1,000 synthetic samples, target reduction with PCA or autoencoders, six surrogate models, predicting a 100-point thickness profile, explained with SHAP and served in a 3D digital twin.">
+        <p class="dg-title">From chamber recipe to predicted wafer profile</p>
+        <div class="flow" aria-hidden="true">
+          <span class="node">Chamber recipe</span><span class="arrow">→</span>
+          <span class="node">Physics model<small>rotation-aware RBF / CVD</small></span><span class="arrow">→</span>
+          <span class="node">1,000 samples<small>Latin hypercube</small></span><span class="arrow">→</span>
+          <span class="node">Target reduction<small>PCA, AE, VAE, SAE</small></span><span class="arrow">→</span>
+          <span class="node hot">6 surrogates<small>best: MLP + PCA</small></span><span class="arrow">→</span>
+          <span class="node">100-point thickness profile</span>
+        </div>
+        <p class="down" aria-hidden="true">↓ explained and served</p>
+        <div class="flow" aria-hidden="true" style="margin-top:8px">
+          <span class="node">SHAP feature attribution</span>
+          <span class="node">3D chamber digital twin<small>Three.js + FastAPI</small></span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3>AI surrogates for semiconductor chamber profiles</h3>
+      <p class="ctx">NTUST × TSMC research collaboration, 2026–present</p>
+      <p class="lead">Running a chamber simulator for every candidate recipe is slow. A trained surrogate predicts a wafer's 100-point thickness profile in milliseconds, so engineers can search recipes interactively.</p>
+      <ul class="did">
+        <li>Generated training data from a rotation-aware physics model and compared four ways of compressing the profile target.</li>
+        <li>Benchmarked six surrogate models, including MLP, 1D-CNN, XGBoost, LightGBM and CatBoost.</li>
+        <li>Built a 3D digital twin of the chamber that shows predictions in real time.</li>
+      </ul>
+      <dl class="results">
+        <div class="result"><dt>R² 0.96</dt><dd>best surrogate (MLP + PCA)</dd></div>
+        <div class="result"><dt>Temperature</dt><dd>dominant recipe input, per SHAP analysis</dd></div>
+      </dl>
+      <ul class="tags"><li>PyTorch</li><li>scikit-learn</li><li>XGBoost</li><li>SHAP</li><li>FastAPI</li><li>Three.js</li></ul>
+    </div>
+  </article>
+
+  <article class="feature flip" data-tags="control" id="boiler">
+    <div class="visual">
+      <figure>
+        <button class="zoom frame" data-full="assets/img/id-fan.jpg" data-caption="Induced draft fan, driven by a 6.3 kV motor: the actuator for the control loop" aria-label="Enlarge induced draft fan photo">
+          <img src="assets/img/id-fan.jpg" alt="Induced draft fan with its 6.3 kV motor at PLTU Jeranjang" loading="lazy" width="1270" height="787">
+        </button>
+        <div class="thumbs">
+          <button class="zoom" data-full="assets/img/boiler.jpg" data-caption="Circulating fluidized bed boiler, PLTU Jeranjang"><img src="assets/img/boiler.jpg" alt="Boiler building at PLTU Jeranjang" loading="lazy"></button>
+          <button class="zoom" data-full="assets/img/dcs-logic.jpg" data-caption="Control logic in HOLLiAS MACS block diagram programming"><img src="assets/img/dcs-logic.jpg" alt="DCS block diagram program" loading="lazy"></button>
+          <button class="zoom" data-full="assets/img/dcs-trend.jpg" data-caption="DCS trend after commissioning: furnace pressure held inside the window"><img src="assets/img/dcs-trend.jpg" alt="DCS trend screen showing stable furnace pressure" loading="lazy"></button>
+        </div>
+      </figure>
+    </div>
+    <div>
+      <h3>Boiler furnace pressure control</h3>
+      <p class="ctx">PLN Indonesia Power, PLTU Jeranjang (3×25 MW coal-fired plant), 2023–2024</p>
+      <p class="lead">Furnace pressure was held by operators adjusting the induced draft fans by hand from the control room. I led a two-person instrumentation team to replace that with a closed loop.</p>
+      <div class="window" role="img" aria-label="Safe furnace pressure window from minus 140 to minus 40 pascal. Below it, implosion risk. Above it, hot gas escapes the furnace.">
+        <div class="scale" aria-hidden="true"><div class="ok">Safe window</div></div>
+        <div class="ticks" aria-hidden="true"><span style="left:0;transform:none">−200 Pa</span><span style="left:30%">−140</span><span style="left:80%">−40</span><span style="right:0;left:auto;transform:none">0</span></div>
+        <div class="zones" aria-hidden="true"><span>Too low: implosion risk</span><span>Too high: hot gas escapes</span></div>
+      </div>
+      <ul class="did" style="margin-top:16px">
+        <li>Designed PID control on a HollySys HOLLiAS MACS DCS, averaging two pressure transmitters.</li>
+        <li>Added a fallback: if readings fluctuate or pass a limit, the loop hands control back to operators.</li>
+        <li>Commissioned on the plant; pressure stayed within −140 to −40 Pa.</li>
+      </ul>
+      <ul class="tags"><li>PID control</li><li>HollySys MACS DCS</li><li>Industrial instrumentation</li></ul>
+    </div>
+  </article>
+
+  <article class="feature" data-tags="pcb firmware control" id="npk">
+    <div class="visual">
+      <figure>
+        <button class="zoom frame" data-full="assets/img/npk-device.jpg" data-caption="Working prototype: three peristaltic pumps dose nutrients from sensor readings" aria-label="Enlarge prototype photo">
+          <img src="assets/img/npk-device.jpg" alt="Fertilization prototype with three peristaltic pumps over plant pots, NPK sensor in the soil" loading="lazy" width="1400" height="1050">
+        </button>
+        <div class="thumbs">
+          <button class="zoom" data-full="assets/img/npk-boards.jpg" data-caption="Pump driver board (left) and main board (right), both designed in EAGLE"><img src="assets/img/npk-boards.jpg" alt="Assembled pump driver and main boards" loading="lazy"></button>
+          <button class="zoom" data-full="assets/img/npk-pcb.jpg" data-caption="Main board layout, ESP32 based"><img src="assets/img/npk-pcb.jpg" alt="Main board PCB layout" loading="lazy"></button>
+          <button class="zoom" data-full="assets/img/npk-blynk.jpg" data-caption="Remote monitoring and override in Blynk"><img src="assets/img/npk-blynk.jpg" alt="Blynk monitoring app" loading="lazy"></button>
+        </div>
+      </figure>
+    </div>
+    <div>
+      <h3>Automated NPK fertilization system</h3>
+      <p class="ctx">Undergraduate thesis, ITS, 2021–2022. Published in Jurnal Teknik ITS.</p>
+      <p class="lead">A closed-loop system that reads soil nutrient levels and doses nitrogen, phosphorus and potassium solutions to hold them at a setpoint, with remote monitoring from a phone.</p>
+      <ul class="did">
+        <li>Wrote ESP32 firmware (ESP-IDF) that reads an NPK sensor over RS-485 and drives three peristaltic pumps with PID control.</li>
+        <li>Designed the main controller and pump driver PCBs in EAGLE, then assembled and tested them.</li>
+        <li>Added remote monitoring and manual override through Blynk.</li>
+      </ul>
+      <ul class="tags"><li>ESP32 / ESP-IDF</li><li>C</li><li>RS-485</li><li>PID control</li><li>EAGLE PCB</li><li>Blynk</li></ul>
+      <p class="proj-links"><a href="https://doi.org/10.12962/j23373539.v11i3.93954" target="_blank" rel="noopener">Read the paper (Indonesian)</a></p>
+    </div>
+  </article>
+
+  <!-- ===== GRID ===== -->
+  <div class="grid" id="grid">
+
+    <article class="card" data-tags="ml">
+      <div class="media spec" aria-hidden="true"><div class="flow">
+        <span class="node">Event stream</span><span class="arrow">→</span><span class="node">Event frames</span><span class="arrow">→</span><span class="node hot">ViT-S/14 (GEP pretrained)</span><span class="arrow">→</span><span class="node">TCN + BiLSTM</span><span class="arrow">→</span><span class="node">CTC</span>
+      </div></div>
+      <div class="body">
+        <h3>Event-camera sign language recognition <span class="status">In progress</span></h3>
+        <p class="ctx">NTUST graduate research, 2025–present</p>
+        <p>Testing whether a self-supervised encoder pretrained on event-camera data transfers to sign language recognition, where only 5,570 labeled sequences exist.</p>
+        <details><summary>Details</summary><ul>
+          <li>Pipeline follows the published VAC/CorrNet structure, evaluated on EvSign.</li>
+          <li>Attribution-controlled experiments: frozen vs. fine-tuned encoder, domain-adapted (EvRealHands) vs. baseline, multi-seed reporting.</li>
+        </ul></details>
+        <ul class="tags"><li>PyTorch</li><li>ViT</li><li>Event cameras</li><li>CTC</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="ml deploy">
+      <div class="media spec" aria-hidden="true"><div class="flow">
+        <span class="node">Raspberry Pi 4 camera<small>face detection</small></span><span class="arrow">→</span><span class="node hot">AWS Rekognition</span><span class="arrow">→</span><span class="node">Lambda + DynamoDB</span><span class="arrow">→</span><span class="node">React dashboard</span>
+      </div></div>
+      <div class="body">
+        <h3>Face recognition attendance system</h3>
+        <p class="ctx">Group project, NTUST, 2025</p>
+        <p>Attendance logging that detects faces on a Raspberry Pi and verifies identity in the cloud.</p>
+        <details><summary>Details</summary><ul>
+          <li>Edge face detection with OpenCV on a Raspberry Pi 4; identity checks with AWS Rekognition.</li>
+          <li>Serverless backend (Lambda, S3, DynamoDB, SNS) for logging and notifications.</li>
+          <li>React/Flask dashboard for enrollment and attendance analytics.</li>
+        </ul></details>
+        <ul class="tags"><li>AWS</li><li>OpenCV</li><li>React</li><li>Flask</li></ul>
+        <p class="proj-links"><a href="https://github.com/ontherays/smartFaceRecognistionAWS" target="_blank" rel="noopener">View on GitHub</a></p>
+      </div>
+    </article>
+
+    <article class="card" data-tags="digital">
+      <div class="media spec" aria-hidden="true"><div class="flow">
+        <span class="node">ML detector<small>floating point</small></span><span class="arrow">vs</span><span class="node hot">K-best, K=16<small>fixed point</small></span>
+      </div><p class="dg-title" style="margin:12px 0 0">Same BER, far less computation</p></div>
+      <div class="body">
+        <h3>MIMO detector IC design</h3>
+        <p class="ctx">Digital Communication IC Design course, NTUST, 2025</p>
+        <p>A hardware-efficient detector for MIMO receivers, checked against the optimal maximum likelihood reference.</p>
+        <details><summary>Details</summary><ul>
+          <li>Implemented a floating-point maximum likelihood detector: BER of 10⁻⁴ at about 27 dB SNR.</li>
+          <li>Designed a fixed-point K-best (K=16) detector in Verilog with near-identical BER at much lower complexity.</li>
+        </ul></details>
+        <ul class="tags"><li>Verilog</li><li>AMD Vivado</li><li>Fixed-point arithmetic</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="firmware">
+      <div class="media contain"><img src="assets/img/companion-3d.jpg" alt="3D model of the desktop companion enclosure" loading="lazy"></div>
+      <div class="body">
+        <h3>Keyboard-reactive desktop companion <span class="status">In progress</span></h3>
+        <p class="ctx">Personal project, 2026</p>
+        <p>A small USB device with an animated character that reacts as you type on a Windows PC.</p>
+        <details><summary>Details</summary><ul>
+          <li>A PC app captures typing events and streams them over a serial COM port.</li>
+          <li>Enclosure currently being designed in 3D.</li>
+        </ul></details>
+        <ul class="tags"><li>Embedded C++</li><li>Serial / USB</li><li>3D design</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="ml">
+      <div class="media"><img src="assets/img/cable-dataset.jpg" alt="Grid of power cable image patches extracted from drone footage" loading="lazy"></div>
+      <div class="body">
+        <h3>Power line detection in drone footage</h3>
+        <p class="ctx">Machine Vision course, ITS, 2021</p>
+        <p>A classical vision pipeline that finds power cables in aerial video.</p>
+        <details><summary>Details</summary><ul>
+          <li>Hough line transform proposes candidate lines.</li>
+          <li>Local Binary Pattern texture features and an SVM classifier keep real cables.</li>
+        </ul></details>
+        <ul class="tags"><li>Python</li><li>OpenCV</li><li>SVM</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="firmware">
+      <div class="media spec" aria-hidden="true"><div class="flow">
+        <span class="node">DS18B20 temp</span><span class="node">TDS</span><span class="node">pH</span><span class="arrow">→</span><span class="node hot">ESP8266</span><span class="arrow">→</span><span class="node">ThingSpeak</span>
+      </div></div>
+      <div class="body">
+        <h3>Fish farm water monitoring</h3>
+        <p class="ctx">IoT project, 2021</p>
+        <p>Remote water-quality monitoring for a gourami fish farm, viewable from anywhere.</p>
+        <details><summary>Details</summary><ul>
+          <li>Reads water temperature, total dissolved solids and pH with an ESP8266.</li>
+          <li>Publishes and charts readings on ThingSpeak.</li>
+        </ul></details>
+        <ul class="tags"><li>ESP8266</li><li>Arduino C++</li><li>ThingSpeak</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="firmware">
+      <div class="media"><img src="assets/img/ros-robot.jpg" alt="Mobile robot next to a terminal running the ROS master on a Raspberry Pi" loading="lazy"></div>
+      <div class="body">
+        <h3>Remote-controlled ROS robot</h3>
+        <p class="ctx">Autonomous Robot Systems course, ITS, 2021</p>
+        <p>A mobile robot driven remotely with ROS2, with a Raspberry Pi 4 as the onboard computer.</p>
+        <details><summary>Details</summary><ul>
+          <li>Raspberry Pi 4 runs the ROS master and accepts commands over SSH.</li>
+          <li>ROS2 nodes translate remote commands into motor control.</li>
+        </ul></details>
+        <ul class="tags"><li>ROS2</li><li>Raspberry Pi</li><li>Linux</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="firmware control">
+      <div class="media"><img src="assets/img/self-balancing.jpg" alt="Two-wheeled self-balancing robot standing upright" loading="lazy"></div>
+      <div class="body">
+        <h3>Self-balancing two-wheeled robot</h3>
+        <p class="ctx">Embedded Systems course, ITS, 2021</p>
+        <p>A robot that drives forward while keeping itself upright.</p>
+        <details><summary>Details</summary><ul>
+          <li>PID loop on fused MPU6050 accelerometer and gyroscope data, driving an L298N motor driver.</li>
+          <li>Written twice, in C on STM32 and C++ on Arduino Nano, to compare platforms.</li>
+        </ul></details>
+        <ul class="tags"><li>C / C++</li><li>STM32</li><li>Arduino</li><li>PID control</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="firmware">
+      <div class="media"><img src="assets/img/line-tracer.jpg" alt="Line tracer robot with infrared sensor LEDs lit" loading="lazy"></div>
+      <div class="body">
+        <h3>Line tracer in bare-metal Assembly</h3>
+        <p class="ctx">Embedded Systems course, ITS, 2021</p>
+        <p>A line-following robot programmed at register level on an MCS-51 microcontroller.</p>
+        <details><summary>Details</summary><ul>
+          <li>Assembly firmware reads infrared sensors and steers through an L298N motor driver.</li>
+        </ul></details>
+        <ul class="tags"><li>Assembly</li><li>MCS-51</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="digital">
+      <div class="media"><button class="zoom" data-full="assets/img/fpga-fsm.jpg" data-caption="Vending machine state diagram" aria-label="Enlarge state diagram" style="height:100%"><img src="assets/img/fpga-demo.jpg" alt="Vending machine FSM running on the DE-10 Lite board with a switch controller" loading="lazy" style="width:100%;height:100%;object-fit:cover"></button></div>
+      <div class="body">
+        <h3>Vending machine FSM on FPGA</h3>
+        <p class="ctx">Programmable Devices course, ITS, 2021</p>
+        <p>A vending machine controller described as a finite-state machine and run on real hardware.</p>
+        <details><summary>Details</summary><ul>
+          <li>Written in VHDL and verified in ModelSim before synthesis.</li>
+          <li>Deployed on a Terasic DE-10 Lite with Intel Quartus Prime.</li>
+        </ul></details>
+        <ul class="tags"><li>VHDL</li><li>Quartus Prime</li><li>ModelSim</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="pcb firmware">
+      <div class="media contain"><button class="zoom" data-full="assets/img/pkm-system.jpg" data-caption="System design: three soil sensors into an Arduino, sent over Wi-Fi to an Android app" aria-label="Enlarge system diagram" style="height:100%"><img src="assets/img/pkm-system.jpg" alt="System diagram of soil sensors, Arduino, Wi-Fi module and Android phone" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:8px"></button></div>
+      <div class="body">
+        <h3>Soil analyzer for crop recommendation</h3>
+        <p class="ctx">PKM national student innovation competition, 2020</p>
+        <p>A soil probe that recommends suitable crops through an Android app. Passed the national funding stage.</p>
+        <details><summary>Details</summary><ul>
+          <li>Owned the electrical design in a five-person team.</li>
+          <li>Arduino UNO reads NPK, pH and humidity sensors and sends data over ESP8266 Wi-Fi.</li>
+          <li>Designed the PCB in EAGLE.</li>
+        </ul></details>
+        <ul class="tags"><li>Arduino</li><li>ESP8266</li><li>EAGLE PCB</li></ul>
+      </div>
+    </article>
+
+  </div>
+</div>
+</section>
+
+<section id="background" style="background:var(--paper);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)">
+<div class="wrap two">
+  <div>
+    <h2>Background</h2>
+    <ol class="timeline">
+      <li><span class="when">2025 to 2027 (expected)</span><b>M.S., Electronics and Computer Engineering, NTUST</b><p>GPA 4.00/4.30, NTUST full scholarship. Graduate researcher, Mobilizing Information Technology Lab.</p></li>
+      <li><span class="when">2023 to 2024</span><b>Electrical and Instrumentation Maintenance, PLN Indonesia Power</b><p>Maintained 100+ motors, transformers, generators, protections and DCS equipment across three units of PLTU Jeranjang.</p></li>
+      <li><span class="when">2018 to 2022</span><b>B.Eng., Electrical Engineering (Electronics), ITS</b><p>Cum laude, GPA 3.61/4.00. Lab assistant for industrial electronics; practicum assistant for 50+ students.</p></li>
+    </ol>
+    <div class="skills">
+      <h3>Tools I use most</h3>
+      <dl>
+        <dt>Machine learning</dt><dd>PyTorch, scikit-learn, ViT and DINOv2, self-supervised learning, CTC models, SHAP</dd>
+        <dt>Deployment</dt><dd>ONNX, TensorRT, FP16/INT8, Jetson Orin Nano, FastAPI, AWS, Docker</dd>
+        <dt>Hardware</dt><dd>C/C++, ESP32, STM32, EAGLE PCB, VHDL, Verilog, PID control, DCS</dd>
+      </dl>
+    </div>
+  </div>
+  <div id="publications">
+    <h2>Publications</h2>
+    <ul class="pubs">
+      <li><b>DINOv2-Pretrained Vision Transformers for Stroke and Heart Failure Detection from Chest X-rays with Limited Labeled Data</b>
+        <p class="venue">Journal of Imaging Informatics in Medicine (Springer Nature), 2026. Second author of four.</p>
+        <a href="https://doi.org/10.1007/s10278-026-02133-5" target="_blank" rel="noopener">doi.org/10.1007/s10278-026-02133-5</a></li>
+      <li><b>Sistem Kontrol dan Monitoring Pemupukan NPK Tanaman dengan Mikrokontroler ESP32</b>
+        <p class="venue">(Control and Monitoring System for Plant NPK Fertilization Using the ESP32 Microcontroller.) Jurnal Teknik ITS, Vol. 11, No. 3, 2022. First author of three.</p>
+        <a href="https://doi.org/10.12962/j23373539.v11i3.93954" target="_blank" rel="noopener">doi.org/10.12962/j23373539.v11i3.93954</a></li>
+    </ul>
+  </div>
+</div>
+</section>
+</main>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's talk</h2>
+    <p>I'm looking for roles in machine learning engineering, edge AI and embedded systems, starting in 2027. I'm based in Taipei and work in English (IELTS 7.5), Indonesian and basic Mandarin.</p>
+    <div class="links">
+      <a class="btn primary" href="mailto:jaluveda@gmail.com">Email me</a>
+      <a class="btn" href="https://linkedin.com/in/jaluveda" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn" href="https://github.com/19Jal" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="assets/Jalu-Veda-CV.pdf" download>Download CV</a>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">© 2026 Jalu Veda</div></footer>
+
+<dialog id="lightbox" aria-label="Enlarged image">
+  <button type="button" id="lb-close">Close</button>
+  <img id="lb-img" alt="">
+  <p id="lb-cap"></p>
+</dialog>
+
+<script>
+(() => {
+  const names = {pcb:"Circuits & PCBs",firmware:"Firmware",control:"Control systems",digital:"Digital & IC design",ml:"Vision & ML",deploy:"Edge & cloud deployment"};
+  const items = [...document.querySelectorAll('#work [data-tags]')];
+  const stages = [...document.querySelectorAll('.stage')];
+  const status = document.getElementById('filter-status');
+  const text = document.getElementById('filter-text');
+
+  // project counts per stage
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const n = items.filter(i => i.dataset.tags.split(' ').includes(el.dataset.count)).length;
+    el.textContent = n + (n === 1 ? ' project' : ' projects');
+  });
+
+  let active = null;
+  function apply(tag, scroll){
+    active = (active === tag) ? null : tag;
+    let shown = 0;
+    items.forEach(i => {
+      const hit = !active || i.dataset.tags.split(' ').includes(active);
+      i.dataset.hidden = hit ? 'false' : 'true';
+      if (hit) shown++;
+    });
+    stages.forEach(s => s.setAttribute('aria-pressed', String(s.dataset.filter === active)));
+    if (active){
+      text.textContent = `Showing ${shown} of ${items.length} projects in ${names[active]}.`;
+      status.hidden = false;
+      if (scroll) document.getElementById('work').scrollIntoView({block:'start'});
+    } else {
+      status.hidden = true;
+    }
+  }
+  stages.forEach(s => s.addEventListener('click', () => apply(s.dataset.filter, true)));
+  document.getElementById('clear').addEventListener('click', () => { if (active) apply(active, false); });
+
+  // lightbox
+  const dlg = document.getElementById('lightbox');
+  const img = document.getElementById('lb-img');
+  const cap = document.getElementById('lb-cap');
+  document.querySelectorAll('.zoom').forEach(b => b.addEventListener('click', () => {
+    img.src = b.dataset.full; img.alt = b.dataset.caption || '';
+    cap.textContent = b.dataset.caption || '';
+    if (dlg.showModal) dlg.showModal(); else window.open(b.dataset.full);
+  }));
+  document.getElementById('lb-close').addEventListener('click', () => dlg.close());
+  dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+})();
+</script>
+</body>
+</html>
