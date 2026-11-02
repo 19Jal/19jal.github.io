@@ -147,6 +147,10 @@ section{padding:56px 0}
 .card .media{aspect-ratio:16/10;background:#fff;border-bottom:1px solid var(--rule);overflow:hidden}
 .card .media img{width:100%;height:100%;object-fit:cover}
 .card .media.contain img{object-fit:contain;padding:8px}
+.card .media video,.visual video{display:block;width:100%;height:100%;object-fit:cover;background:#0E1A2F}
+.visual .vid{aspect-ratio:4/3}
+.card .media.duo{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+.card .media.duo img{background:#fff}
 .card .media.spec{display:flex;flex-direction:column;justify-content:center;padding:16px;background:var(--navy-tint)}
 .spec .flow{gap:6px}
 .spec .node{font-size:.76rem;padding:5px 8px}
@@ -386,11 +390,10 @@ dialog[open]{animation:pop .18s ease-out}
   <article class="feature" data-tags="pcb firmware control" id="npk">
     <div class="visual">
       <figure>
-        <button class="zoom frame" data-full="assets/img/npk-device.jpg" data-caption="Working prototype: three peristaltic pumps dose nutrients from sensor readings" aria-label="Enlarge prototype photo">
-          <img src="assets/img/npk-device.jpg" alt="Fertilization prototype with three peristaltic pumps over plant pots, NPK sensor in the soil" loading="lazy" width="1400" height="1050">
-        </button>
+        <div class="frame vid"><video controls muted loop playsinline preload="none" poster="assets/video/npk-demo.jpg" aria-label="Demo: pumps dosing fertilizer while the Blynk app shows NPK readings"><source src="assets/video/npk-demo.mp4" type="video/mp4"></video></div>
+        <figcaption>Demo: the pumps dose fertilizer while the phone app tracks soil NPK.</figcaption>
         <div class="thumbs">
-          <button class="zoom" data-full="assets/img/npk-boards.jpg" data-caption="Pump driver board (left) and main board (right), both designed in EAGLE"><img src="assets/img/npk-boards.jpg" alt="Assembled pump driver and main boards" loading="lazy"></button>
+          <button class="zoom" data-full="assets/img/npk-board-labeled.jpg" data-caption="Main board: ESP32, MAX485 RS-485 module and 3.3 V buck converter"><img src="assets/img/npk-board-labeled.jpg" alt="Labeled main controller board" loading="lazy"></button>
           <button class="zoom" data-full="assets/img/npk-pcb.jpg" data-caption="Main board layout, ESP32 based"><img src="assets/img/npk-pcb.jpg" alt="Main board PCB layout" loading="lazy"></button>
           <button class="zoom" data-full="assets/img/npk-blynk.jpg" data-caption="Remote monitoring and override in Blynk"><img src="assets/img/npk-blynk.jpg" alt="Blynk monitoring app" loading="lazy"></button>
         </div>
@@ -400,10 +403,14 @@ dialog[open]{animation:pop .18s ease-out}
       <h3>Automated NPK fertilization system</h3>
       <p class="ctx">Undergraduate thesis, ITS, 2021–2022. Published in Jurnal Teknik ITS.</p>
       <p class="lead">A closed-loop system that reads soil nutrient levels and doses nitrogen, phosphorus and potassium solutions to hold them at a setpoint, with remote monitoring from a phone.</p>
+      <dl class="results">
+        <div class="result"><dt>±2 mg/kg</dt><dd>max error holding nitrogen and phosphorus at setpoint</dd></div>
+        <div class="result"><dt>±3 mg/kg</dt><dd>max error holding potassium at setpoint</dd></div>
+      </dl>
       <ul class="did">
         <li>Wrote ESP32 firmware (ESP-IDF) that reads an NPK sensor over RS-485 and drives three peristaltic pumps with PID control.</li>
         <li>Designed the main controller and pump driver PCBs in EAGLE, then assembled and tested them.</li>
-        <li>Added remote monitoring and manual override through Blynk.</li>
+        <li>Added remote monitoring, manual override and out-of-range alerts through Blynk.</li>
       </ul>
       <ul class="tags"><li>ESP32 / ESP-IDF</li><li>C</li><li>RS-485</li><li>PID control</li><li>EAGLE PCB</li><li>Blynk</li></ul>
       <p class="proj-links"><a href="https://doi.org/10.12962/j23373539.v11i3.93954" target="_blank" rel="noopener">Read the paper (Indonesian)</a></p>
@@ -478,54 +485,85 @@ dialog[open]{animation:pop .18s ease-out}
     </article>
 
     <article class="card" data-tags="ml">
-      <div class="media"><img src="assets/img/cable-dataset.jpg" alt="Grid of power cable image patches extracted from drone footage" loading="lazy"></div>
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/cable-detection.jpg" aria-label="Detected power lines drawn in blue over drone footage"><source src="assets/video/cable-detection.mp4" type="video/mp4"></video></div>
       <div class="body">
         <h3>Power line detection in drone footage</h3>
         <p class="ctx">Machine Vision course, ITS, 2021</p>
         <p>A classical vision pipeline that finds power cables in aerial video.</p>
         <details><summary>Details</summary><ul>
-          <li>Hough line transform proposes candidate lines.</li>
-          <li>Local Binary Pattern texture features and an SVM classifier keep real cables.</li>
+          <li>Hough line transform proposes candidate lines in each frame.</li>
+          <li>Built a training set of cable and non-cable patches from the footage, then trained an SVM on Local Binary Pattern texture features to keep only real cables.</li>
         </ul></details>
-        <ul class="tags"><li>Python</li><li>OpenCV</li><li>SVM</li></ul>
+        <ul class="tags"><li>Python</li><li>OpenCV</li><li>scikit-learn</li><li>SVM</li></ul>
       </div>
     </article>
 
-    <article class="card" data-tags="firmware">
-      <div class="media spec" aria-hidden="true"><div class="flow">
-        <span class="node">DS18B20 temp</span><span class="node">TDS</span><span class="node">pH</span><span class="arrow">→</span><span class="node hot">ESP8266</span><span class="arrow">→</span><span class="node">ThingSpeak</span>
-      </div></div>
+    <article class="card" data-tags="control">
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/coppeliasim.jpg" aria-label="Simulated Pioneer robot following a planned path through an office"><source src="assets/video/coppeliasim.mp4" type="video/mp4"></video></div>
       <div class="body">
-        <h3>Fish farm water monitoring</h3>
-        <p class="ctx">IoT project, 2021</p>
-        <p>Remote water-quality monitoring for a gourami fish farm, viewable from anywhere.</p>
+        <h3>Mobile robot path planning in simulation</h3>
+        <p class="ctx">Autonomous Robot Systems course, ITS, 2021</p>
+        <p>A simulated Pioneer P3-DX robot plans a route across an office map and drives it to the goal.</p>
         <details><summary>Details</summary><ul>
-          <li>Reads water temperature, total dissolved solids and pH with an ESP8266.</li>
-          <li>Publishes and charts readings on ThingSpeak.</li>
+          <li>Built an occupancy map from a floor plan and planned the route with a probabilistic roadmap (PRM).</li>
+          <li>Pure pursuit turns the route into speed commands; inverse kinematics converts them to wheel speeds.</li>
+          <li>MATLAB drives the CoppeliaSim robot in a closed loop through its remote API.</li>
         </ul></details>
-        <ul class="tags"><li>ESP8266</li><li>Arduino C++</li><li>ThingSpeak</li></ul>
+        <ul class="tags"><li>MATLAB</li><li>CoppeliaSim</li><li>PRM</li><li>Pure pursuit</li></ul>
       </div>
     </article>
 
     <article class="card" data-tags="firmware">
-      <div class="media"><img src="assets/img/ros-robot.jpg" alt="Mobile robot next to a terminal running the ROS master on a Raspberry Pi" loading="lazy"></div>
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/ros-robot.jpg" aria-label="Robot driven from a keyboard teleoperation terminal"><source src="assets/video/ros-robot.mp4" type="video/mp4"></video></div>
       <div class="body">
         <h3>Remote-controlled ROS robot</h3>
         <p class="ctx">Autonomous Robot Systems course, ITS, 2021</p>
-        <p>A mobile robot driven remotely with ROS2, with a Raspberry Pi 4 as the onboard computer.</p>
+        <p>A mobile robot driven remotely with ROS, with a Raspberry Pi 4 as the onboard computer.</p>
         <details><summary>Details</summary><ul>
           <li>Raspberry Pi 4 runs the ROS master and accepts commands over SSH.</li>
-          <li>ROS2 nodes translate remote commands into motor control.</li>
+          <li>Keyboard teleoperation publishes velocity commands; a serial node passes them to the motor controller.</li>
         </ul></details>
-        <ul class="tags"><li>ROS2</li><li>Raspberry Pi</li><li>Linux</li></ul>
+        <ul class="tags"><li>ROS</li><li>Raspberry Pi</li><li>Linux</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="control firmware">
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/scada.jpg" aria-label="Arduino, motor driver and DC motor controlled from a LabVIEW panel"><source src="assets/video/scada.mp4" type="video/mp4"></video></div>
+      <div class="body">
+        <h3>Mini SCADA for a conveyor motor</h3>
+        <p class="ctx">Industrial Electronics and Robotics course, ITS, 2021</p>
+        <p>A LabVIEW control panel that monitors and drives a conveyor-belt motor, with an Arduino standing in for the PLC.</p>
+        <details><summary>Details</summary><ul>
+          <li>Panel sets motor speed (PWM duty), voltage and direction, and shows speed, voltage and belt temperature (LM35).</li>
+          <li>Arduino UNO with an L298N driver, linked through the LabVIEW Interface for Arduino.</li>
+          <li>Measured 5–7 s lag between panel and hardware, too slow for real-time control.</li>
+        </ul></details>
+        <p class="proj-links"><button class="zoom" data-full="assets/img/scada-ui.jpg" data-caption="LabVIEW front panel: speed, voltage, direction and temperature" style="all:unset;cursor:zoom-in;color:var(--navy);text-decoration:underline;text-underline-offset:3px">See the control panel</button></p>
+        <ul class="tags"><li>LabVIEW</li><li>Arduino</li><li>L298N</li><li>LM35</li></ul>
+      </div>
+    </article>
+
+    <article class="card" data-tags="control firmware">
+      <div class="media"><button class="zoom" data-full="assets/img/pid-response.jpg" data-caption="Step to 90°: settles in 3.2 s with 2.2% overshoot and no steady-state error" aria-label="Enlarge step response" style="height:100%;width:100%"><img src="assets/img/pid-response.jpg" alt="Position step response rising to 90 degrees" loading="lazy" style="width:100%;height:100%;object-fit:contain;background:#0B2A12"></button></div>
+      <div class="body">
+        <h3>DC motor position control</h3>
+        <p class="ctx">Electronic Control Systems course, ITS, 2021 (Proteus simulation)</p>
+        <p>An Arduino controller that turns a DC motor to 90° and meets all three design targets.</p>
+        <details><summary>Details</summary><ul>
+          <li>Targets: settle under 5 s, overshoot under 5%, steady-state error within ±2%.</li>
+          <li>Tuned a PD controller (Kp 0.4, Kd 140): 3.2 s settling, 2.2% overshoot, 0% error.</li>
+          <li>Quadrature encoder for position; an op-amp inverter and 4051 multiplexer drive the motor both ways; an MCP4725 DAC exports position for plotting.</li>
+        </ul></details>
+        <p class="proj-links"><button class="zoom" data-full="assets/img/pid-schematic.jpg" data-caption="Proteus schematic: Arduino, encoder, op-amp inverter, 4051 mux, motor driver and DAC" style="all:unset;cursor:zoom-in;color:var(--navy);text-decoration:underline;text-underline-offset:3px">See the schematic</button></p>
+        <ul class="tags"><li>Arduino C++</li><li>PID / PD control</li><li>Proteus</li></ul>
       </div>
     </article>
 
     <article class="card" data-tags="firmware control">
-      <div class="media"><img src="assets/img/self-balancing.jpg" alt="Two-wheeled self-balancing robot standing upright" loading="lazy"></div>
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/self-balancing.jpg" aria-label="Two-wheeled robot balancing and driving on a tiled floor"><source src="assets/video/self-balancing.mp4" type="video/mp4"></video></div>
       <div class="body">
         <h3>Self-balancing two-wheeled robot</h3>
-        <p class="ctx">Embedded Systems course, ITS, 2021</p>
+        <p class="ctx">Embedded Systems course, ITS, 2020</p>
         <p>A robot that drives forward while keeping itself upright.</p>
         <details><summary>Details</summary><ul>
           <li>PID loop on fused MPU6050 accelerometer and gyroscope data, driving an L298N motor driver.</li>
@@ -536,10 +574,10 @@ dialog[open]{animation:pop .18s ease-out}
     </article>
 
     <article class="card" data-tags="firmware">
-      <div class="media"><img src="assets/img/line-tracer.jpg" alt="Line tracer robot with infrared sensor LEDs lit" loading="lazy"></div>
+      <div class="media"><video controls muted loop playsinline preload="none" poster="assets/video/line-tracer.jpg" aria-label="Line tracer robot following a black taped square"><source src="assets/video/line-tracer.mp4" type="video/mp4"></video></div>
       <div class="body">
         <h3>Line tracer in bare-metal Assembly</h3>
-        <p class="ctx">Embedded Systems course, ITS, 2021</p>
+        <p class="ctx">Embedded Systems course, ITS, 2020</p>
         <p>A line-following robot programmed at register level on an MCS-51 microcontroller.</p>
         <details><summary>Details</summary><ul>
           <li>Assembly firmware reads infrared sensors and steers through an L298N motor driver.</li>
@@ -548,24 +586,41 @@ dialog[open]{animation:pop .18s ease-out}
       </div>
     </article>
 
+    <article class="card" data-tags="pcb firmware">
+      <div class="media"><button class="zoom" data-full="assets/img/fish-pcb.jpg" data-caption="Sensor node PCB I designed in EAGLE: NodeMCU socket, 4051 multiplexer and sensor headers" aria-label="Enlarge PCB layout" style="height:100%;width:100%"><img src="assets/img/fish-pcb.jpg" alt="EAGLE PCB layout of the sensor node" loading="lazy" style="width:100%;height:100%;object-fit:cover"></button></div>
+      <div class="body">
+        <h3>Fish farm water monitoring</h3>
+        <p class="ctx">Internship (Kerja Praktik), Intelligent Electronics Lab, ITS, 2021</p>
+        <p>A mains-powered monitoring node that reports a gourami pond's water quality online. Team of three.</p>
+        <details><summary>Details</summary><ul>
+          <li>NodeMCU ESP8266 reads water temperature (DS18B20), dissolved solids (TDS) and pH; a 4051 analog multiplexer shares its single ADC between the analog sensors.</li>
+          <li>Local readout on an ST7789 display; readings published and charted on ThingSpeak.</li>
+          <li>Designed the node's PCB in EAGLE, with the 220 V mains supply (HLK-PM01) on board.</li>
+          <li>Tested in four different solutions.</li>
+        </ul></details>
+        <ul class="tags"><li>ESP8266</li><li>Arduino C++</li><li>EAGLE PCB</li><li>ThingSpeak</li></ul>
+      </div>
+    </article>
+
     <article class="card" data-tags="digital">
       <div class="media"><button class="zoom" data-full="assets/img/fpga-fsm.jpg" data-caption="Vending machine state diagram" aria-label="Enlarge state diagram" style="height:100%"><img src="assets/img/fpga-demo.jpg" alt="Vending machine FSM running on the DE-10 Lite board with a switch controller" loading="lazy" style="width:100%;height:100%;object-fit:cover"></button></div>
       <div class="body">
         <h3>Vending machine FSM on FPGA</h3>
         <p class="ctx">Programmable Devices course, ITS, 2021</p>
-        <p>A vending machine controller described as a finite-state machine and run on real hardware.</p>
+        <p>A candy vending machine controller described as a finite-state machine and run on an FPGA board.</p>
         <details><summary>Details</summary><ul>
-          <li>Written in VHDL and verified in ModelSim before synthesis.</li>
+          <li>Accepts Rp100, Rp200 and Rp500 coins for a Rp500 item; three 7-segment digits show the credit.</li>
+          <li>Written in Verilog (FSM, 7-segment decoder, 50 MHz to 1 Hz clock divider) and verified in ModelSim.</li>
           <li>Deployed on a Terasic DE-10 Lite with Intel Quartus Prime.</li>
         </ul></details>
-        <ul class="tags"><li>VHDL</li><li>Quartus Prime</li><li>ModelSim</li></ul>
+        <ul class="tags"><li>Verilog</li><li>Quartus Prime</li><li>ModelSim</li></ul>
       </div>
     </article>
 
     <article class="card" data-tags="pcb firmware">
-      <div class="media contain"><button class="zoom" data-full="assets/img/pkm-system.jpg" data-caption="System design: three soil sensors into an Arduino, sent over Wi-Fi to an Android app" aria-label="Enlarge system diagram" style="height:100%"><img src="assets/img/pkm-system.jpg" alt="System diagram of soil sensors, Arduino, Wi-Fi module and Android phone" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:8px"></button></div>
+      <div class="media duo"><button class="zoom" data-full="assets/img/pkm-system.jpg" data-caption="System design: soil sensors into an Arduino, sent over Wi-Fi to the app" aria-label="Enlarge system diagram"><img src="assets/img/pkm-system.jpg" alt="System diagram of soil sensors, Arduino, Wi-Fi module and phone" loading="lazy" style="width:100%;height:100%;object-fit:contain;padding:6px"></button><button class="zoom" data-full="assets/img/smile-app.jpg" data-caption="The team's app: soil readings and suggested crops" aria-label="Enlarge app screenshot"><img src="assets/img/smile-app.jpg" alt="App screen showing soil temperature, pH, NPK and suggested crops" loading="lazy" style="width:100%;height:100%;object-fit:cover;object-position:top"></button></div>
       <div class="body">
-        <h3>Soil analyzer for crop recommendation</h3>
+        <h3>SMILE: soil analyzer for crop recommendation</h3>
         <p class="ctx">PKM national student innovation competition, 2020</p>
         <p>A soil probe that recommends suitable crops through an Android app. Passed the national funding stage.</p>
         <details><summary>Details</summary><ul>
